@@ -75,10 +75,10 @@ td.p{font-family:var(--hand);font-size:1.3rem;color:var(--pen);line-height:1.1}
 <div class="wrap">
   <header>
     <h1>Participios irregulares</h1>
-    <p>Впиши причастие в пропуск. Ошибки вернутся в конце круга.</p>
+    <p>Впиши причастие в пропуск: 10 глаголов из конспекта и 20 правильных. Ошибки вернутся в конце круга.</p>
   </header>
 
-  <div class="progress"><span id="count">1 из 20</span><div class="bar"><i id="bar"></i></div></div>
+  <div class="progress"><span id="count">1 из 40</span><div class="bar"><i id="bar"></i></div></div>
 
   <section class="card" id="card">
     <div class="verb">глагол<b id="verb"></b></div>
@@ -132,7 +132,47 @@ const VERBS = [
  {inf:'ver', p:'visto', model:'-sto', fam:'prever → previsto',
   s:[['¿Has ___ la última película de Almodóvar?','Ты видел последний фильм Альмодовара?'],['Nunca he ___ nieve en Barcelona.','Я никогда не видел снега в Барселоне.']]},
  {inf:'ir', p:'ido', model:'правильное', fam:'это правильное причастие: основа + -ido, как comer → comido',
-  s:[['Este verano hemos ___ a la playa.','Этим летом мы ездили на пляж.'],['¿Has ___ alguna vez a Sevilla?','Ты когда-нибудь был в Севилье?']]}
+  s:[['Este verano hemos ___ a la playa.','Этим летом мы ездили на пляж.'],['¿Has ___ alguna vez a Sevilla?','Ты когда-нибудь был в Севилье?']]},
+ {inf:'hablar', p:'hablado', model:'-ar → -ado', fam:'правильное причастие: основа + -ado',
+  s:[['He ___ con mi jefe esta mañana.','Я поговорил с начальником сегодня утром.']]},
+ {inf:'trabajar', p:'trabajado', model:'-ar → -ado', fam:'правильное причастие: основа + -ado',
+  s:[['Hoy hemos ___ diez horas.','Сегодня мы проработали десять часов.']]},
+ {inf:'comprar', p:'comprado', model:'-ar → -ado', fam:'правильное причастие: основа + -ado',
+  s:[['¿Has ___ pan?','Ты купил хлеб?']]},
+ {inf:'estudiar', p:'estudiado', model:'-ar → -ado', fam:'правильное причастие: основа + -ado',
+  s:[['Ana ha ___ mucho para el examen.','Ана много занималась перед экзаменом.']]},
+ {inf:'llegar', p:'llegado', model:'-ar → -ado', fam:'правильное причастие: основа + -ado',
+  s:[['El tren todavía no ha ___.','Поезд ещё не пришёл.']]},
+ {inf:'tomar', p:'tomado', model:'-ar → -ado', fam:'правильное причастие: основа + -ado',
+  s:[['Ya he ___ dos cafés hoy.','Я сегодня уже выпил два кофе.']]},
+ {inf:'cenar', p:'cenado', model:'-ar → -ado', fam:'правильное причастие: основа + -ado',
+  s:[['¿Habéis ___ ya?','Вы уже поужинали?']]},
+ {inf:'viajar', p:'viajado', model:'-ar → -ado', fam:'правильное причастие: основа + -ado',
+  s:[['Nunca he ___ a México.','Я никогда не ездил в Мексику.']]},
+ {inf:'llamar', p:'llamado', model:'-ar → -ado', fam:'правильное причастие: основа + -ado',
+  s:[['Te he ___ tres veces.','Я звонил тебе три раза.']]},
+ {inf:'pagar', p:'pagado', model:'-ar → -ado', fam:'правильное причастие: основа + -ado',
+  s:[['¿Quién ha ___ la cuenta?','Кто оплатил счёт?']]},
+ {inf:'comer', p:'comido', model:'-er → -ido', fam:'правильное причастие: основа + -ido',
+  s:[['Hoy he ___ en casa de mis padres.','Сегодня я обедал у родителей.']]},
+ {inf:'beber', p:'bebido', model:'-er → -ido', fam:'правильное причастие: основа + -ido',
+  s:[['No he ___ suficiente agua hoy.','Я сегодня выпил недостаточно воды.']]},
+ {inf:'aprender', p:'aprendido', model:'-er → -ido', fam:'правильное причастие: основа + -ido',
+  s:[['He ___ mucho en este curso.','Я многому научился на этом курсе.']]},
+ {inf:'vender', p:'vendido', model:'-er → -ido', fam:'правильное причастие: основа + -ido',
+  s:[['Han ___ su piso.','Они продали свою квартиру.']]},
+ {inf:'entender', p:'entendido', model:'-er → -ido', fam:'правильное причастие: основа + -ido',
+  s:[['No he ___ la pregunta.','Я не понял вопрос.']]},
+ {inf:'vivir', p:'vivido', model:'-ir → -ido', fam:'правильное причастие: основа + -ido',
+  s:[['Siempre he ___ en esta ciudad.','Я всегда жил в этом городе.']]},
+ {inf:'salir', p:'salido', model:'-ir → -ido', fam:'правильное причастие: основа + -ido',
+  s:[['Los niños ya han ___ del colegio.','Дети уже вышли из школы.']]},
+ {inf:'dormir', p:'dormido', model:'-ir → -ido', fam:'правильное причастие: основа + -ido',
+  s:[['Esta noche he ___ muy mal.','Этой ночью я очень плохо спал.']]},
+ {inf:'pedir', p:'pedido', model:'-ir → -ido', fam:'правильное причастие: основа + -ido',
+  s:[['Hemos ___ una pizza.','Мы заказали пиццу.']]},
+ {inf:'recibir', p:'recibido', model:'-ir → -ido', fam:'правильное причастие: основа + -ido',
+  s:[['¿Has ___ mi mensaje?','Ты получил моё сообщение?']]}
 ];
 
 const $ = id => document.getElementById(id);
@@ -184,7 +224,7 @@ function grade(text){
     v.textContent = (text.trim() ? 'Не «' + text.trim() + '», а ' : 'Правильно: ') + current.v.p + '. Карточка вернётся в конце.';
   }
   $('family').textContent = '';
-  const lead = current.v.fam.includes('→') && current.v.inf !== 'ir' ? 'Так же: ' : 'Заметка: ';
+  const lead = current.v.fam.includes(' → ') && current.v.inf !== 'ir' ? 'Так же: ' : 'Заметка: ';
   const sp = document.createElement('span'); sp.textContent = current.v.fam;
   $('family').append(lead, sp);
   $('bar').style.width = (solved / total * 100) + '%';
