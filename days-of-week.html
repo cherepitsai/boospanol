@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ru">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -81,12 +81,12 @@ td.p{font-family:var(--hand);font-size:1.3rem;color:var(--pen);line-height:1.1}
     <p id="lead"></p>
   </header>
 
-  <div class="modes" role="group" aria-label="Режим">
-    <button type="button" id="m-cards" aria-pressed="true">Карточки</button>
-    <button type="button" id="m-drill" aria-pressed="false">Упражнения</button>
+  <div class="modes" role="group" aria-label="Mode">
+    <button type="button" id="m-cards" aria-pressed="true">Flashcards</button>
+    <button type="button" id="m-drill" aria-pressed="false">Exercises</button>
   </div>
 
-  <div class="progress"><span id="count">1 из 7</span><div class="bar"><i id="bar"></i></div></div>
+  <div class="progress"><span id="count">1 of 7</span><div class="bar"><i id="bar"></i></div></div>
 
   <section class="card" id="card">
     <div class="label" id="label"></div>
@@ -94,59 +94,58 @@ td.p{font-family:var(--hand);font-size:1.3rem;color:var(--pen);line-height:1.1}
     <p class="ru" id="ru"></p>
     <p class="back" id="back" hidden></p>
 
-    <div class="row" id="flip"><button class="primary" type="button" id="show">Показать ответ</button></div>
+    <div class="row" id="flip"><button class="primary" type="button" id="show">Show answer</button></div>
 
     <form id="form" autocomplete="off" hidden>
-      <input id="answer" type="text" aria-label="День недели по-испански" placeholder="día" autocapitalize="none" autocorrect="off" spellcheck="false">
-      <button class="primary" type="submit">Проверить</button>
-      <button class="ghost" type="button" id="skip">Не помню</button>
+      <input id="answer" type="text" aria-label="Day of the week in Spanish" placeholder="día" autocapitalize="none" autocorrect="off" spellcheck="false">
+      <button class="primary" type="submit">Check</button>
+      <button class="ghost" type="button" id="skip">Don't know</button>
     </form>
 
     <div class="feedback" id="feedback" hidden>
       <p class="verdict" id="verdict"></p>
       <p class="note" id="note"></p>
       <div class="row">
-        <button class="primary" type="button" id="know">Знаю</button>
-        <button class="ghost" type="button" id="again1">Ещё раз</button>
-        <button class="primary" type="button" id="next">Дальше</button>
+        <button class="primary" type="button" id="know">I knew it</button>
+        <button class="ghost" type="button" id="again1">Again</button>
+        <button class="primary" type="button" id="next">Next</button>
       </div>
     </div>
   </section>
 
   <section class="card done" id="done" hidden>
-    <h2>Круг пройден</h2>
+    <h2>Round complete</h2>
     <p id="score"></p>
     <div class="row">
-      <button class="primary" type="button" id="restart">Ещё круг</button>
+      <button class="primary" type="button" id="restart">New round</button>
       <button class="ghost" type="button" id="other"></button>
     </div>
   </section>
 
   <details>
-    <summary>Шпаргалка</summary>
+    <summary>Cheat sheet</summary>
     <div class="sheet"><table>
-      <thead><tr><th>По-русски</th><th>Español</th><th>Откуда слово</th></tr></thead>
+      <thead><tr><th>English</th><th>Español</th><th>Origin</th></tr></thead>
       <tbody id="cheat"></tbody>
     </table></div>
     <ul>
-      <li><b>Со строчной буквы:</b> в испанском дни недели не пишутся с заглавной.</li>
-      <li><b>Все мужского рода:</b> el lunes, el sábado. «В понедельник» = <b>el lunes</b>, без предлога.</li>
-      <li><b>Множественное число:</b> los lunes, los martes (слово не меняется), но los sábados, los domingos.</li>
+      <li><b>Lowercase:</b> Spanish does not capitalize the days of the week.</li>
+      <li><b>All masculine:</b> el lunes, el sábado. "On Monday" is <b>el lunes</b>, with no preposition.</li>
+      <li><b>Plural:</b> los lunes, los martes (the word does not change), but los sábados, los domingos.</li>
     </ul>
   </details>
 </div>
 
 <script>
 const DAYS = [
- {es:'lunes', ru:'понедельник', note:'от Luna: день Луны'},
- {es:'martes', ru:'вторник', note:'от Marte: день Марса'},
- {es:'miércoles', ru:'среда', note:'от Mercurio: день Меркурия'},
- {es:'jueves', ru:'четверг', note:'от Júpiter (лат. Iovis): день Юпитера'},
- {es:'viernes', ru:'пятница', note:'от Venus (лат. Veneris): день Венеры'},
- {es:'sábado', ru:'суббота', note:'от sabbatum: шаббат, как и русское «суббота»'},
- {es:'domingo', ru:'воскресенье', note:'от dominicus: день Господень'}
+ {es:'lunes', ru:'Monday', note:'from Luna, the Moon, just like Monday'},
+ {es:'martes', ru:'Tuesday', note:'from Marte, the day of Mars'},
+ {es:'miércoles', ru:'Wednesday', note:'from Mercurio, the day of Mercury'},
+ {es:'jueves', ru:'Thursday', note:'from Júpiter (Latin Iovis), the day of Jupiter'},
+ {es:'viernes', ru:'Friday', note:'from Venus (Latin Veneris), the day of Venus'},
+ {es:'sábado', ru:'Saturday', note:'from sabbatum, the Sabbath'},
+ {es:'domingo', ru:'Sunday', note:'from dominicus, the day of the Lord'}
 ];
-const RU_NOM = ['понедельник','вторник','среда','четверг','пятница','суббота','воскресенье'];
 
 const $ = id => document.getElementById(id);
 const strip = t => t.trim().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
@@ -159,9 +158,9 @@ function build(){
   const items = [];
   DAYS.forEach((d,i) => {
     const nx = DAYS[(i+1)%7], pv = DAYS[(i+6)%7];
-    items.push({d, label:'перевод', es:'___', ru:d.ru, missed:false});
-    items.push({d:nx, label:'какой день завтра', es:'Hoy es '+d.es+', mañana es ___.', ru:'Сегодня '+RU_NOM[i]+', завтра ___.', missed:false});
-    items.push({d:pv, label:'какой день был вчера', es:'Hoy es '+d.es+', ayer fue ___.', ru:'Сегодня '+RU_NOM[i]+', вчера был(а) ___.', missed:false});
+    items.push({d, label:'translate', es:'___', ru:d.ru, missed:false});
+    items.push({d:nx, label:'what day is tomorrow', es:'Hoy es '+d.es+', mañana es ___.', ru:'Today is '+d.ru+', tomorrow is ___.', missed:false});
+    items.push({d:pv, label:'what day was yesterday', es:'Hoy es '+d.es+', ayer fue ___.', ru:'Today is '+d.ru+', yesterday was ___.', missed:false});
   });
   return items;
 }
@@ -171,9 +170,9 @@ function setMode(m){
   $('m-cards').setAttribute('aria-pressed', m === 'cards');
   $('m-drill').setAttribute('aria-pressed', m === 'drill');
   $('lead').textContent = m === 'cards'
-    ? 'Вспомни слово по-испански, потом открой ответ и честно отметь, знал или нет.'
-    : 'Впиши день недели по-испански. Ошибки вернутся в конце круга.';
-  $('other').textContent = m === 'cards' ? 'К упражнениям' : 'К карточкам';
+    ? 'Recall the Spanish word, then show the answer and mark honestly whether you knew it.'
+    : 'Type the day in Spanish. Missed cards come back at the end of the round.';
+  $('other').textContent = m === 'cards' ? 'Go to exercises' : 'Go to flashcards';
   start();
 }
 
@@ -199,14 +198,14 @@ function show(){
   if(!queue.length){ finish(); return; }
   current = queue[0]; answered = false;
   const cards = mode === 'cards';
-  $('label').textContent = cards ? 'как по-испански?' : current.label;
+  $('label').textContent = cards ? 'in Spanish?' : current.label;
   $('ru').textContent = cards ? '' : current.ru;
   $('ru').hidden = cards;
   $('back').hidden = true;
   renderSentence('');
   $('flip').hidden = !cards; $('form').hidden = cards; $('feedback').hidden = true;
   $('answer').value = '';
-  $('count').textContent = (solved + 1) + ' из ' + total;
+  $('count').textContent = (solved + 1) + ' of ' + total;
   progress();
   (cards ? $('show') : $('answer')).focus({preventScroll:true});
 }
@@ -215,7 +214,7 @@ function reveal(){
   $('back').textContent = current.d.es; $('back').hidden = false;
   $('flip').hidden = true;
   $('verdict').className = 'verdict'; $('verdict').textContent = current.d.ru + ' = ' + current.d.es;
-  $('note').textContent = 'Заметка: ' + current.d.note;
+  $('note').textContent = 'Origin: ' + current.d.note;
   $('know').hidden = false; $('again1').hidden = false; $('next').hidden = true;
   $('feedback').hidden = false;
   $('know').focus({preventScroll:true});
@@ -238,13 +237,13 @@ function grade(text){
   if(ok){
     solved++; if(!current.missed) firstTry++;
     v.className = 'verdict ok';
-    v.textContent = typed === ans ? 'Верно: ' + ans : 'Верно, но пиши с ударением: ' + ans;
+    v.textContent = typed === ans ? 'Correct: ' + ans : 'Correct, but write the accent: ' + ans;
   } else {
     current.missed = true; queue.push(current);
     v.className = 'verdict bad';
-    v.textContent = (typed ? 'Не «' + text.trim() + '», а ' : 'Правильно: ') + ans + '. Карточка вернётся в конце.';
+    v.textContent = (typed ? 'Not "' + text.trim() + '", it is ' : 'Answer: ') + ans + '. This card will come back.';
   }
-  $('note').textContent = 'Заметка: ' + current.d.ru + ', ' + current.d.note;
+  $('note').textContent = 'Origin: ' + current.d.ru + ', ' + current.d.note;
   progress();
   $('know').hidden = true; $('again1').hidden = true; $('next').hidden = false;
   $('form').hidden = true; $('feedback').hidden = false;
@@ -253,9 +252,9 @@ function grade(text){
 
 function finish(){
   $('card').hidden = true; $('done').hidden = false;
-  $('count').textContent = total + ' из ' + total;
+  $('count').textContent = total + ' of ' + total;
   $('bar').style.width = '100%';
-  $('score').textContent = 'С первой попытки: ' + firstTry + ' из ' + total + '.';
+  $('score').textContent = 'First try: ' + firstTry + ' of ' + total + '.';
   $('restart').focus({preventScroll:true});
 }
 
